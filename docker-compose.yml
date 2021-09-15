@@ -1,0 +1,39 @@
+version: "3"
+services: 
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  node-app:
+    build: .
+    #ports:
+    #  - "3000:3000"
+    environment: 
+      - PORT=3000
+    depends_on: 
+      - mongo ## kindlustamaks sellise buutimise j2rjekorra
+  
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=sanjeev
+      - MONGO_INITDB_ROOT_PASSWORD=mypassword
+    volumes:
+      - mongo-db:/data/db
+  
+  redis: ## docker exec -it docker_redis_1 redis-cli
+    image: redis
+
+volumes:  ### docker compose -f docker-compose.yml -f docker-compose.dev.yml down (ilma -v, koos -v -ga likvideerib db)
+  mongo-db:
+
+## docker exec -it docker_mongo_1 bash
+## docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d ##installides uue paketi, on vaja ka dev'i jaoks --build
+## docker exec -it docker_mongo_1 mongo -u "sanjeev" -p "mypassword"
+## docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d  --build -V (--renew-anon-volumes,Recreate anonymous volumes instead of retrieving data from the previous containers., --help)
+
+##ngings
+## docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale node-app=2

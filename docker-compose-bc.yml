@@ -1,0 +1,21 @@
+#docker build -t node-app-image .
+#docker run -v ${pwd}:/app:ro -v /app/node_modules --env-file ./.env -p 3000:3000 -d --name node-app node-app-image
+version: "3"
+services: 
+  node-app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment: 
+      - PORT=3000
+    #env_file: 
+    #  - ./.env
+
+  #postgres:
+  #redis:
+## docker compose up -d
+## docker compose down -v
+## docker compose up -d --build ##force build if changing port
