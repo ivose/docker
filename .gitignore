@@ -3,5 +3,4 @@
 /build
 /requests
 .env
-Dockerfile
 .dockerignore
