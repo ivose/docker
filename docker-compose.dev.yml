@@ -26,7 +26,7 @@ services:
 
 #  redis:
 #    environment:
-
+## root@ubuntu-s-1vcpu-1gb-fra1-01:~# printenv
 
 
 
